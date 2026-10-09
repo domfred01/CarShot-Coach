@@ -2,6 +2,8 @@
 
 This standalone browser application lives alongside the original Expo app. It uses the rear camera, browser-based COCO-SSD vehicle detection, composition tips for six shot types, and JPEG capture with the iOS share sheet/download fallback. Images are processed locally and never uploaded. Model weights download from TensorFlow's model host. Interior shots use manual guidance. Angle recognition and lighting analysis are not implemented.
 
+Azure app: `carshot-coach`, resource group: `rg-carshot-coach`, hosting plan: **Free**. Site URL: https://white-grass-027924510.2.azurestaticapps.net (available after the first successful deployment).
+
 ## Develop in VS Code
 
 Run these commands from `C:\Dev\CarShot-Coach\web`:
