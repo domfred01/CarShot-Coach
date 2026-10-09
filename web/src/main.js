@@ -1,6 +1,9 @@
 import './style.css';
+import './experience.css';
 import { bestVehicle, framingAdvice, shotExamples, shotTips } from './coaching.js';
 import { applyLook, coverCrop, cssFilter, looks } from './photography.js';
+import { setupReview } from './review.js';
+import { setupFeed } from './feed.js';
 
 /** @template {HTMLElement} T @param {string} id @returns {T} */
 function el(id) {
@@ -65,6 +68,18 @@ function analyze(source) {
   inferenceQueue = result.then(() => {}, () => {});
   return result;
 }
+const review = setupReview({ analyze, onExport(blob) {
+  if (photoUrl) URL.revokeObjectURL(photoUrl);
+  photoBlob = blob; photoUrl = URL.createObjectURL(blob);
+  /** @type {HTMLImageElement} */ (el('photo')).src = photoUrl;
+  /** @type {HTMLAnchorElement} */ (el('download')).href = photoUrl;
+} });
+function showHome() {
+  review.cancel();
+  stopCamera(); el('studio').hidden = true; el('review').hidden = true; el('intro').hidden = false; showError('');
+}
+setupFeed({ getPhoto: () => photoBlob, home: showHome });
+el('review-home').addEventListener('click', showHome);
 
 function updateExample() {
   const example = shotExamples[shot.value];
@@ -136,6 +151,7 @@ async function detect(token) {
 }
 
 start.addEventListener('click', async () => {
+  review.cancel();
   showError('');
   stopCamera();
   const token = session;
@@ -260,6 +276,7 @@ capture.addEventListener('click', () => {
     el('studio').hidden = true;
     el('review').hidden = false;
     el('photo-look').textContent = `${shot.value} · ${looks[savedLook].name} · Ready to share with your crew`;
+    void review.present(canvas, shot.value, blob);
   }, 'image/jpeg', 0.94);
 });
 el('share').addEventListener('click', async () => {

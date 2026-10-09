@@ -74,6 +74,13 @@ run.addEventListener('click', async () => {
     assert(Math.abs(pixel[0] - pixel[1]) <= 2 && Math.abs(pixel[1] - pixel[2]) <= 2 && pixel[0] > 20, 'Saved JPEG contains monochrome filter, not the original red fixture');
     assert(liveStream.getTracks().every(track => track.readyState === 'ended'), 'Capture stops camera tracks');
     assert(!doc.body.classList.contains('shooting'), 'Review restores normal page scrolling');
+    await until(() => !get('view-enhanced').disabled);
+    assert(get('post-tips').children.length >= 2, 'Post-shot tips appear');
+    const enhancedUrl = get('download').href;
+    get('view-original').click();
+    assert(get('view-original').getAttribute('aria-pressed') === 'true' && get('download').href !== enhancedUrl, 'Original toggle updates saved version');
+    get('view-enhanced').click();
+    assert(get('view-enhanced').getAttribute('aria-pressed') === 'true', 'Auto Pop can be restored');
     get('retake').click(); await until(() => !get('capture').disabled);
     get('back').click();
     assert(get('studio').hidden && !get('intro').hidden, 'Back returns to shot selection');
@@ -83,6 +90,18 @@ run.addEventListener('click', async () => {
     Object.defineProperty(doc, 'hidden', { configurable: true, value: true });
     doc.dispatchEvent(new Event('visibilitychange'));
     assert(backgroundStream.getTracks().every(track => track.readyState === 'ended') && get('studio').hidden && !get('intro').hidden, 'Backgrounding pauses camera and restores selection');
+    get('post-photo').click();
+    await until(() => !get('composer').hidden);
+    const name = `Fixture ${crypto.randomUUID()}`;
+    get('post-car').value = name;
+    get('post-caption').value = '<b>Local test only</b>';
+    get('post-submit').click();
+    await until(() => get('feed-cards').textContent.includes(name));
+    assert(!get('feed-cards').querySelector('b'), 'Captions render as text, never HTML');
+    const { listPosts, deletePost } = await import('/src/feed-store.js');
+    const stored = (await listPosts()).find(post => post.car === name);
+    assert(stored?.photo instanceof Blob && stored.photo.size > 0, 'Local post persists in IndexedDB with its photo');
+    if (stored) await deletePost(stored.id);
     delete doc.hidden;
     results.textContent += '\nALL CAMERA CHECKS PASSED';
   } catch (error) { results.textContent += `\nFAIL ${error.message}`; }

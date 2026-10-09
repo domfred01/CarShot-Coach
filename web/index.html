@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#111111" />
+  <meta name="theme-color" content="#090c13" />
   <meta name="description" content="For the builds, the meets and the late-night drives. Shoot your car with live framing guidance and scene-inspired looks." />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -13,19 +13,41 @@
 </head>
 <body>
   <main>
-    <header><a href="/" aria-label="CarShot Coach home">CarShot <span>Coach</span></a><span class="pill">BUILT FOR CAR PEOPLE</span></header>
+    <header><a href="/" aria-label="CarShot Coach home"><i aria-hidden="true">///</i> CarShot <span>Coach</span></a><a class="header-meet" href="#meet">The meet ↗</a></header>
     <section id="intro">
-      <p class="eyebrow">YOUR BUILD. YOUR CREW. YOUR SHOT.</p>
-      <h1>Built to drive.<br /><span>Shot to share.</span></h1>
-      <p class="lead">From a widebody GT-R to a weekend Ferrari.<br />Find the angle that does your build justice.</p>
-      <div class="scene-tags" aria-label="Car culture"><span>JDM</span><span>EXOTICS</span><span>MEETS & STREET</span></div>
-      <div class="hero-photo" role="img" aria-label="Ferrari at a cars and coffee location"><span>FOR THE LOVE OF THE BUILD</span></div>
+      <p class="eyebrow"><span class="signal-dot" aria-hidden="true"></span> EVERY BUILD HAS A STORY.</p>
+      <h1>Feel the rush.<br /><span>Frame the moment.</span></h1>
+      <p class="lead">The shape. The stance. That first look back.<br />Do your build justice, one frame at a time.</p>
+      <div class="hero-photo" role="img" aria-label="Red Ferrari 488 in golden-hour light"><span class="hero-label">THE CARSHOT COLLECTION / 001</span><div class="hero-caption"><strong>More than a machine.</strong><span>488 GTB · GOLDEN HOUR</span></div><span class="hero-mark" aria-hidden="true">↗</span></div>
+      <div class="scene-tags" aria-label="Car culture"><span>EXOTICS</span><span>JDM ICONS</span><span>BUILT, NOT BOUGHT</span></div>
+      <div class="shoot-card" id="shoot"><div class="section-heading"><div><p class="eyebrow">YOUR NEXT WALLPAPER</p><h2>Find your angle.</h2></div><span class="section-number" aria-hidden="true">01</span></div>
       <label for="shot">Choose your shot</label>
       <select id="shot"><option>Front 3/4</option><option>Rear 3/4</option><option>Side</option><option>Front</option><option>Rear</option><option>Interior</option></select>
       <button id="start" class="primary">Open camera <span aria-hidden="true">↗</span></button>
+      <p class="feature-note">LIVE COACHING <span> / </span> SCENE LOOKS <span> / </span> AUTO POP</p></div>
       <details class="ai-details"><summary>Check AI before you head out</summary><button id="test-ai" class="quiet">Check AI with an example photo</button><p id="ai-check" class="small" role="status">Check vehicle detection before opening your camera.</p></details>
       <p class="small">Camera frames stay on your device. AI model files download on first use.</p>
       <details><summary>Using this on your iPhone</summary><p>Open this site in Safari. Allow camera access when asked. For an app-like shortcut, use Share → Add to Home Screen. An internet connection is required; this preview does not work offline.</p></details>
+      <section id="meet" class="meet" aria-labelledby="meet-title">
+        <div class="section-heading"><div><p class="eyebrow">GOOD BUILDS. GREAT COMPANY.</p><h2 id="meet-title">The meet.</h2></div><span class="preview-badge">LOCAL PREVIEW</span></div>
+        <p class="section-copy">A place for the cars you can't walk past.</p>
+        <p class="local-note">Preview only: your posts stay in this browser, on this device. Inspiration cards are AI-generated examples, not posts from other users.</p>
+        <label class="button add-photo" for="feed-file">＋ Add a photo to your preview</label><input id="feed-file" type="file" accept="image/*" class="visually-hidden" />
+        <div id="feed-tabs" class="feed-tabs" role="group" aria-label="Feed categories"></div>
+        <p id="feed-status" class="small" role="status"></p>
+        <section id="composer" class="composer" hidden aria-labelledby="composer-title">
+          <p class="eyebrow">LET THE BUILD TALK</p><h3 id="composer-title">Add your frame.</h3><img id="post-preview" alt="Photo for your local preview post" />
+          <form id="post-form">
+            <label for="post-car">Your car / build</label><input id="post-car" name="car" required maxlength="60" placeholder="e.g. R34, midnight edition" />
+            <label for="post-author">Your handle</label><input id="post-author" name="author" maxlength="24" placeholder="yourbuild" autocomplete="nickname" />
+            <label for="post-category">Scene</label><select id="post-category" name="category"><option>JDM</option><option>Exotics</option><option>Other</option></select>
+            <label for="post-caption">The story <span>(optional)</span></label><textarea id="post-caption" name="caption" maxlength="240" rows="3" placeholder="The build, the light, the moment…"></textarea>
+            <p class="small">Only saved on this device. Save a separate copy of photos you want to keep.</p>
+            <button id="post-submit" class="primary" type="submit">Add to local preview ↗</button><button id="post-cancel" class="quiet" type="button">Cancel</button>
+          </form>
+        </section>
+        <div id="feed-cards" class="feed-cards"></div><p id="feed-empty" class="empty-state" hidden>Your build belongs here. Add your first photo above, or post a frame after shooting.</p>
+      </section>
     </section>
     <section id="studio" hidden aria-label="Camera studio">
       <div id="viewfinder">
@@ -48,11 +70,14 @@
     </section>
     <p id="error" role="alert" hidden></p>
     <section id="review" hidden aria-label="Photo review">
-      <p class="eyebrow">READY FOR THE GROUP CHAT</p><h2>Your build. Your frame.</h2><p id="photo-look" class="small"></p><img id="photo" alt="Your captured car photo" />
+      <div class="review-heading"><div><p class="eyebrow">THAT'S THE ONE.</p><h2>Your build. Elevated.</h2></div><button id="review-home" class="quiet">← Home</button></div><p id="photo-look" class="small"></p><img id="photo" alt="Your captured car photo" />
+      <div class="enhancement-card"><div class="section-heading"><h3>The finishing touch.</h3><span class="preview-badge">ON DEVICE</span></div><p id="enhancement-status" role="status">Auto Pop is getting ready</p><div class="compare" role="group" aria-label="Photo enhancement"><button id="view-original" aria-pressed="false">Original</button><button id="view-enhanced" aria-pressed="true" disabled>Auto Pop ✦</button></div><p id="enhancement-view" class="small" role="status"></p><p class="small">Subtle light, contrast and color. Keeps your selected filter and the character of your car.</p></div>
+      <section class="post-coaching" aria-labelledby="post-tips-title"><p class="eyebrow">ONE MORE FOR THE CAMERA ROLL</p><h3 id="post-tips-title">Next shot, even better.</h3><ul id="post-tips" aria-live="polite"></ul></section>
       <button id="share" class="primary">Save or share photo</button>
       <a id="download" class="button" download="carshot.jpg">Download photo</a>
+      <button id="post-photo" class="button">＋ Add to your feed preview</button>
       <button id="retake" class="quiet">Take another</button>
-      <p class="small">On iPhone, use Save Image in the share sheet. Photos are not uploaded.</p>
+      <p class="small">On iPhone, use Save Image in the share sheet. Enhancement stays on-device. Feed posts are local previews.</p>
     </section>
     <footer>CARSHOT COACH <span>For the builds. For the culture.</span></footer>
   </main>
