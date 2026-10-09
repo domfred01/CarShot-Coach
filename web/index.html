@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#111111" />
-  <meta name="description" content="Frame better car photos with private, on-device camera guidance." />
+  <meta name="description" content="For the builds, the meets and the late-night drives. Shoot your car with live framing guidance and scene-inspired looks." />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="manifest" href="/manifest.webmanifest" />
@@ -13,38 +13,48 @@
 </head>
 <body>
   <main>
-    <header><a href="/" aria-label="CarShot Coach home">CarShot <span>Coach</span></a><span class="pill">WEB PREVIEW</span></header>
+    <header><a href="/" aria-label="CarShot Coach home">CarShot <span>Coach</span></a><span class="pill">BUILT FOR CAR PEOPLE</span></header>
     <section id="intro">
-      <p class="eyebrow">A BETTER ANGLE. EVERY TIME.</p>
-      <h1>Make your car<br />the hero.</h1>
-      <p class="lead">Choose your angle. Find your frame.<br />Get a little coaching while you shoot.</p>
+      <p class="eyebrow">YOUR BUILD. YOUR CREW. YOUR SHOT.</p>
+      <h1>Built to drive.<br /><span>Shot to share.</span></h1>
+      <p class="lead">From a widebody GT-R to a weekend Ferrari.<br />Find the angle that does your build justice.</p>
+      <div class="scene-tags" aria-label="Car culture"><span>JDM</span><span>EXOTICS</span><span>MEETS & STREET</span></div>
+      <div class="hero-photo" role="img" aria-label="Ferrari at a cars and coffee location"><span>FOR THE LOVE OF THE BUILD</span></div>
       <label for="shot">Choose your shot</label>
       <select id="shot"><option>Front 3/4</option><option>Rear 3/4</option><option>Side</option><option>Front</option><option>Rear</option><option>Interior</option></select>
       <button id="start" class="primary">Open camera <span aria-hidden="true">↗</span></button>
+      <details class="ai-details"><summary>Check AI before you head out</summary><button id="test-ai" class="quiet">Check AI with an example photo</button><p id="ai-check" class="small" role="status">Check vehicle detection before opening your camera.</p></details>
       <p class="small">Camera frames stay on your device. AI model files download on first use.</p>
       <details><summary>Using this on your iPhone</summary><p>Open this site in Safari. Allow camera access when asked. For an app-like shortcut, use Share → Add to Home Screen. An internet connection is required; this preview does not work offline.</p></details>
     </section>
-    <section id="studio" hidden>
-      <div class="studio-heading"><button id="back" class="quiet">← Change shot</button><span id="angle"></span></div>
+    <section id="studio" hidden aria-label="Camera studio">
       <div id="viewfinder">
         <video id="camera" autoplay muted playsinline aria-label="Live rear camera"></video>
         <canvas id="overlay" aria-hidden="true"></canvas>
         <div class="grid" aria-hidden="true"></div>
-        <span class="live">LIVE · ON DEVICE</span>
       </div>
-      <div class="coaching"><p id="status" class="eyebrow" role="status">Camera ready</p><h2 id="guidance">Find your frame</h2><p id="tip"></p></div>
-      <button id="capture" class="primary">Take photo</button>
-      <p class="small">AI checks framing, not the exact car angle or lighting quality.</p>
+      <div class="studio-heading"><button id="back" class="quiet" aria-label="Back to shot selection">← Shots</button><span id="angle"></span><span class="live">● LIVE</span></div>
+      <details id="example" class="example">
+        <summary><img id="example-thumb" alt="" /><span>Inspiration <small id="example-angle"></small></span><span class="example-toggle" aria-hidden="true"></span></summary>
+        <figure><img id="example-photo" alt="" /><figcaption id="example-caption"></figcaption></figure>
+      </details>
+      <div class="camera-controls">
+        <div class="coaching"><p id="status" class="eyebrow" role="status">Camera ready</p><h2 id="guidance">Find your frame</h2><details class="shot-help"><summary>Shot tips</summary><p id="tip"></p><p>AI checks framing; choose the angle and light yourself.</p></details></div>
+        <button id="retry-ai" class="quiet" hidden>Retry AI detection</button>
+        <div id="looks" class="looks" role="group" aria-label="Photo filters"></div>
+        <p id="look-mood" class="look-mood">True paint, clean detail</p>
+        <div class="shutter-row"><span>MAKE IT<br />YOUR OWN</span><button id="capture" class="shutter" aria-label="Take photo" disabled><span></span></button><button id="toggle-grid" class="grid-toggle" aria-pressed="true">Grid</button></div>
+      </div>
     </section>
     <p id="error" role="alert" hidden></p>
     <section id="review" hidden aria-label="Photo review">
-      <h2>Your shot</h2><img id="photo" alt="Your captured car photo" />
+      <p class="eyebrow">READY FOR THE GROUP CHAT</p><h2>Your build. Your frame.</h2><p id="photo-look" class="small"></p><img id="photo" alt="Your captured car photo" />
       <button id="share" class="primary">Save or share photo</button>
       <a id="download" class="button" download="carshot.jpg">Download photo</a>
       <button id="retake" class="quiet">Take another</button>
       <p class="small">On iPhone, use Save Image in the share sheet. Photos are not uploaded.</p>
     </section>
-    <footer>CARSHOT COACH <span>Your car. Your perspective.</span></footer>
+    <footer>CARSHOT COACH <span>For the builds. For the culture.</span></footer>
   </main>
   <script type="module" src="/src/main.js"></script>
 </body>

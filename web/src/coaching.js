@@ -18,3 +18,19 @@ export const shotTips = {
   Rear: 'Center yourself behind the car. Keep both rear corners in view.',
   Interior: 'Look for clean lines in the dashboard. Avoid bright reflections and keep the camera steady.',
 };
+
+/** @type {Record<string, {src: string, alt: string}>} */
+export const shotExamples = {
+  'Front 3/4': { src: '/examples/front-three-quarter-v2.jpg', alt: 'Red Ferrari 488 photographed from a front corner, showing the nose and one side with room around the car.' },
+  'Rear 3/4': { src: '/examples/rear-three-quarter-v2.jpg', alt: 'Modified blue Nissan Skyline R34 GT-R from a rear corner, with round taillights, bronze wheels and a rear wing.' },
+  Side: { src: '/examples/side-v3.jpg', alt: 'Modified white Nissan GT-R R35 in a level side profile, with bronze wheels and subtle aero.' },
+  Front: { src: '/examples/front-v2.jpg', alt: 'Yellow Ferrari F8 photographed straight-on, with a centered nose and balanced headlights.' },
+  Rear: { src: '/examples/rear-v2.jpg', alt: 'Silver Porsche 911 GT3 from directly behind, with a rear wing and both taillights in view.' },
+  Interior: { src: '/examples/interior-v3.jpg', alt: 'Nissan Skyline R34 GT-R interior with right-hand-drive steering wheel, dashboard gauges and manual shifter.' },
+};
+
+/** @param {import('@tensorflow-models/coco-ssd').DetectedObject[]} predictions */
+export function bestVehicle(predictions) {
+  return predictions.filter(p => (p.class === 'car' || p.class === 'truck') && Number.isFinite(p.score) && p.score >= 0.5 && p.bbox.every(Number.isFinite) && p.bbox[2] > 0 && p.bbox[3] > 0)
+    .sort((a, b) => b.score - a.score)[0];
+}

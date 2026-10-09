@@ -2,6 +2,12 @@
 
 This standalone browser application lives alongside the original Expo app. It uses the rear camera, browser-based COCO-SSD vehicle detection, composition tips for six shot types, and JPEG capture with the iOS share sheet/download fallback. Images are processed locally and never uploaded. Model weights download from TensorFlow's model host. Interior shots use manual guidance. Angle recognition and lighting analysis are not implemented.
 
+After selecting a shot and opening the camera, a bundled reference expands or minimizes to a thumbnail **inside the camera view**. References mix a Ferrari 488/F8, modified Skyline R34 and GT-R R35, and a Porsche 911 GT3. They are AI-generated with the built-in ImageGen tool and saved as versioned JPEGs in `public/examples/`. Prompts requested single photographs from front 3/4, rear 3/4, exact side, straight front, straight rear, and a level R34 dashboard view, with full-car margins, natural cinematic light, no people or text overlays. Side and interior prompts explicitly exclude split layouts and collages. These are inspiration images, not verified vehicle specifications.
+
+The camera fills the available browser viewport, with safe-area-aware controls, a collapsible inspiration card, shot tips, grid toggle and five optional looks: Original, Midnight, Golden, Street and Silver. Safari's browser bars may remain visible. Live preview uses CSS color filters; export applies the same brightness, contrast, saturation and sepia transforms to pixels on-device, without depending on Safari's canvas filter support. Minor browser color-rendering differences may occur. Capture and AI use the same centered crop as the visible camera; AI analyzes an unfiltered image with a maximum edge of 640 pixels. Actual photo resolution depends on camera constraints and the amount of cropping.
+
+Use **Check AI with an example photo** to run real model inference without camera permission. A pass reports vehicle confidence; this checks the model, not physical camera behavior. Live scanning reports actual analyzed frames when no vehicle is recognized, and **Retry AI detection** recovers from load or inference errors. Detection calls are serialized across camera restarts and example checks.
+
 Azure app: `carshot-coach`, resource group: `rg-carshot-coach`, hosting plan: **Free**. Site URL: https://white-grass-027924510.2.azurestaticapps.net (available after the first successful deployment).
 
 ## Develop in VS Code
@@ -25,6 +31,8 @@ npm run check
 npm test
 npm run build
 ```
+
+For desktop camera integration checks, start the dev server and open `/tests/camera.html`, then select **Run camera checks**. This development-only fixture uses a synthetic camera stream and checks full-viewport layout, collapsed/expanded references, all filter controls, monochrome JPEG export, matching preview/export crop, retake, and camera cleanup. It is excluded from the production entry and never requests the physical camera.
 
 The root `.github/workflows/web.yml` runs those checks on pull requests and pushes. Passing pushes to `main` deploy `web/dist` to Azure Static Web Apps using repository secret `AZURE_STATIC_WEB_APPS_API_TOKEN`. Pull requests run checks without deployment. Never put a deployment token in source control.
 
