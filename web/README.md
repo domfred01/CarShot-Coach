@@ -15,6 +15,8 @@ npm run dev
 
 Open the printed localhost link on this computer. iPhone camera access needs the deployed HTTPS URL; a plain HTTP LAN address will not work. On iPhone, open the deployed link in Safari, allow the camera, and optionally use Share > Add to Home Screen. This version requires internet and does not offer offline installation.
 
+In VS Code, use **Terminal > Run Task > CarShot: start web preview** to start the preview, or **CarShot: verify web** to run all checks. **Ctrl+Shift+B** builds the browser app. Edit files in `web/src` for this version; the native Expo screens in root `src` are a separate application.
+
 ## Checks and deployment
 
 ```powershell

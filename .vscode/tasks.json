@@ -1,0 +1,11 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {"label": "CarShot: start web preview", "type": "shell", "command": "npm.cmd", "args": ["run", "dev"], "options": {"cwd": "${workspaceFolder}/web"}, "isBackground": true, "problemMatcher": []},
+    {"label": "CarShot: lint web", "type": "shell", "command": "npm.cmd", "args": ["run", "lint"], "options": {"cwd": "${workspaceFolder}/web"}, "problemMatcher": []},
+    {"label": "CarShot: check web types", "type": "shell", "command": "npm.cmd", "args": ["run", "check"], "options": {"cwd": "${workspaceFolder}/web"}, "problemMatcher": []},
+    {"label": "CarShot: test web", "type": "shell", "command": "npm.cmd", "args": ["test"], "options": {"cwd": "${workspaceFolder}/web"}, "problemMatcher": []},
+    {"label": "CarShot: build web", "type": "shell", "command": "npm.cmd", "args": ["run", "build"], "options": {"cwd": "${workspaceFolder}/web"}, "problemMatcher": [], "group": {"kind": "build", "isDefault": true}},
+    {"label": "CarShot: verify web", "dependsOrder": "sequence", "dependsOn": ["CarShot: lint web", "CarShot: check web types", "CarShot: test web", "CarShot: build web"], "problemMatcher": []}
+  ]
+}
