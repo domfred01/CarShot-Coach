@@ -70,7 +70,7 @@ export function setupReview({ analyze, onExport }) {
         const result = await jpeg(output);
         if (token !== version) return;
         enhanced = result;
-        el('enhancement-status').textContent = box ? 'AI-assisted Auto Pop · car-aware color & light' : 'Auto Pop · subtle color & light';
+        el('enhancement-status').textContent = box ? 'AI-assisted Auto Pop · richer color & crisp detail' : 'Auto Pop · richer color & crisp detail';
         const tips = postShotTips(stats, shot, box, sample.width, sample.height);
         if (aiUnavailable) tips[0] = 'AI framing review is unavailable for this shot. Check the crop and space around the wheels before sharing.';
         for (const tip of tips) { const item = document.createElement('li'); item.textContent = tip; el('post-tips').append(item); }

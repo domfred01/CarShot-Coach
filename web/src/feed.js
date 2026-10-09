@@ -3,7 +3,7 @@ import { deletePost, listPosts, savePost } from './feed-store.js';
 /** @template {HTMLElement} T @param {string} id @returns {T} */
 const el = id => /** @type {T} */ (document.getElementById(id));
 const examples = [
-  { car: '488. No bad angles.', category: 'Exotics', src: '/examples/front-three-quarter-v2.jpg', caption: 'Low camera. Warm light. Let the lines do the talking.' },
+  { car: '488. No bad angles.', category: 'Exotics', src: '/examples/front-three-quarter-white-v3.jpg', caption: 'Low camera. Warm light. Let the lines do the talking.' },
   { car: 'The skyline after hours.', category: 'JDM', src: '/examples/rear-three-quarter-v2.jpg', caption: 'Four round lights. An entire culture.' },
   { car: 'Built for the long way home.', category: 'JDM', src: '/examples/side-v3.jpg', caption: 'Bronze wheels and a clean profile. Less is more.' },
 ];

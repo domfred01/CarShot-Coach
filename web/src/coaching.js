@@ -21,7 +21,7 @@ export const shotTips = {
 
 /** @type {Record<string, {src: string, alt: string}>} */
 export const shotExamples = {
-  'Front 3/4': { src: '/examples/front-three-quarter-v2.jpg', alt: 'Red Ferrari 488 photographed from a front corner, showing the nose and one side with room around the car.' },
+  'Front 3/4': { src: '/examples/front-three-quarter-white-v3.jpg', alt: 'White Ferrari 488 with a black roof, silver five-spoke wheels and yellow calipers photographed from a front corner, showing the nose and one side with room around the car.' },
   'Rear 3/4': { src: '/examples/rear-three-quarter-v2.jpg', alt: 'Modified blue Nissan Skyline R34 GT-R from a rear corner, with round taillights, bronze wheels and a rear wing.' },
   Side: { src: '/examples/side-v3.jpg', alt: 'Modified white Nissan GT-R R35 in a level side profile, with bronze wheels and subtle aero.' },
   Front: { src: '/examples/front-v2.jpg', alt: 'Yellow Ferrari F8 photographed straight-on, with a centered nose and balanced headlights.' },

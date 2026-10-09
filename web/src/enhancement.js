@@ -20,7 +20,7 @@ export function photoStats(pixels) {
 export function enhancePixels(pixels, width, height, stats, box) {
   if (pixels.length !== width * height * 4) throw new Error('Photo dimensions do not match pixel data');
   const lift = Math.max(-0.02, Math.min(0.06, (0.5 - stats.mean) * 0.13 + 0.015));
-  const contrast = stats.highlights > 0.08 ? 0.015 : 0.04;
+  const contrast = stats.highlights > 0.08 ? 0.08 : 0.16;
   const feather = box ? Math.max(1, Math.min(box[2], box[3]) * 0.18) : 1;
   for (let i = 0; i < pixels.length; i += 4) {
     const r = pixels[i], g = pixels[i + 1], b = pixels[i + 2];
@@ -36,11 +36,49 @@ export function enhancePixels(pixels, width, height, stats, box) {
     const curve = 4 * light * (1 - light);
     const target = light + weight * curve * (lift + contrast * (light - 0.5));
     const gain = (target * 255 + 1) / (luminance + 1);
-    const saturation = 1 + weight * 0.045;
+    // Prefer vibrance: already vivid paint gets less boost than muted colors.
+    const chroma = (Math.max(r, g, b) - Math.min(r, g, b)) / 255;
+    const saturation = 1 + weight * (0.24 - 0.12 * chroma);
     const gray = luminance * gain;
     pixels[i] = gray + (r * gain - gray) * saturation;
     pixels[i + 1] = gray + (g * gain - gray) * saturation;
     pixels[i + 2] = gray + (b * gain - gray) * saturation;
+  }
+  sharpenDetail(pixels, width, height);
+}
+
+/** Thresholded luminance sharpening improves slight softness without inventing detail.
+ * Three rolling rows keep additional memory proportional to width, not photo size.
+ * @param {Uint8ClampedArray} pixels @param {number} width @param {number} height
+ */
+export function sharpenDetail(pixels, width, height) {
+  if (pixels.length !== width * height * 4) throw new Error('Photo dimensions do not match pixel data');
+  if (width < 3 || height < 3) return;
+  const rows = [new Float32Array(width), new Float32Array(width), new Float32Array(width)];
+  /** @param {Float32Array} row @param {number} y */
+  const read = (row, y) => {
+    for (let x = 0; x < width; x++) {
+      const i = (y * width + x) * 4;
+      row[x] = pixels[i] * 0.2126 + pixels[i + 1] * 0.7152 + pixels[i + 2] * 0.0722;
+    }
+  };
+  read(rows[0], 0); read(rows[1], 1);
+  for (let y = 1; y < height - 1; y++) {
+    read(rows[2], y + 1);
+    for (let x = 1; x < width - 1; x++) {
+      const i = (y * width + x) * 4;
+      // Ignore transparency boundaries rather than adding dark fringes.
+      if (pixels[i + 3] !== 255 || pixels[i - 1] !== 255 || pixels[i + 7] !== 255 || pixels[i - width * 4 + 3] !== 255 || pixels[i + width * 4 + 3] !== 255) continue;
+      const blurred = (rows[0][x-1] + 2*rows[0][x] + rows[0][x+1] + 2*rows[1][x-1] + 4*rows[1][x] + 2*rows[1][x+1] + rows[2][x-1] + 2*rows[2][x] + rows[2][x+1]) / 16;
+      const detail = rows[1][x] - blurred;
+      // Suppress tiny noise, cap halos and leave pure black/white untouched.
+      const strength = Math.min(1, Math.max(0, (Math.abs(detail) - 2) / 6));
+      const protection = Math.min(1, rows[1][x] / 20, (255 - rows[1][x]) / 20);
+      const adjustment = Math.max(-12, Math.min(12, detail * 0.9)) * strength * protection;
+      for (let c = 0; c < 3; c++) pixels[i + c] += adjustment;
+    }
+    const previous = rows.shift();
+    if (previous) rows.push(previous);
   }
 }
 

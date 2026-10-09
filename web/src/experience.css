@@ -22,7 +22,7 @@ header .header-meet { font-size: 12px; letter-spacing: 0; color: #e0e5f0; paddin
 h1 { font-size: clamp(40px, 8vw, 76px); line-height: 1.01; letter-spacing: -2.6px; margin: 22px 0; }
 h1 span { color: #ff8764; background: linear-gradient(100deg, #ff594c, #ffb46e); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .lead { color: #aab4c7; font-size: 15px; line-height: 1.8; margin-bottom: 24px; }
-.hero-photo { position: relative; height: clamp(250px, 43vw, 430px); padding: 20px; border-radius: 8px; border: 1px solid #ff745b38; background-image: linear-gradient(0deg, #090c13f2, transparent 55%), url('/examples/front-three-quarter-v2.jpg'); background-position: center, center 58%; box-shadow: 0 20px 65px #0006; margin-bottom: 18px; overflow: hidden; }
+.hero-photo { position: relative; height: clamp(250px, 43vw, 430px); padding: 20px; border-radius: 8px; border: 1px solid #ff745b38; background-image: linear-gradient(0deg, #090c13f2, transparent 55%), url('/examples/front-three-quarter-white-v3.jpg'); background-position: center, center 58%; box-shadow: 0 20px 65px #0006; margin-bottom: 18px; overflow: hidden; }
 .hero-label { position: absolute; top: 16px; left: 18px; color: #fff; font-size: 8px!important; letter-spacing: 1.7px!important; text-shadow: 0 1px 6px #000; }
 .hero-caption { display: flex; flex-direction: column; gap: 8px; position: relative; z-index: 1; }
 .hero-caption strong { font: 600 clamp(22px, 5vw, 38px)/1.08 'Space Grotesk', sans-serif; letter-spacing: -.8px; }
