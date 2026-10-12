@@ -1,56 +1,71 @@
-# Welcome to your Expo app 👋
+# CarShot Coach
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A mobile-first car photography prototype built by Dominic Frederick, with AI-assisted development. The browser app combines camera capture, on-device vehicle detection and practical composition guidance.
 
-## Get started
+**[Try the live app](https://white-grass-027924510.2.azurestaticapps.net/)** · **[My portfolio](https://domfrederick.com)**
 
-1. Install dependencies
+![CarShot Coach photography inspiration](web/public/examples/front-three-quarter-white-v3.jpg)
+*AI-generated inspiration image used in the app; not a photograph captured by the application.*
 
-   ```bash
-   npm install
-   ```
+## Why I built it
 
-2. Start the app
+CarShot Coach explores a practical problem: helping people take better car photos from their phones. It also gives me a hands-on project for Azure hosting, Git-based delivery, troubleshooting and documenting technical limitations alongside my Windows infrastructure experience.
 
-   ```bash
-   npx expo start
-   ```
+## What it does
 
-In the output, you'll find options to open the app in a
+- Offers six shot guides, an optional composition grid and rear-camera capture.
+- Runs TensorFlow.js COCO-SSD vehicle detection in the browser, with manual guidance when detection is unavailable.
+- Provides five camera looks and an Auto Pop adjustment for contrast, color and sharpening.
+- Saves or shares JPEGs through the browser and supported device share sheets.
+- Keeps a local photo-feed preview in IndexedDB, capped at 30 resized images.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Architecture and deployment
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+```text
+Phone browser (HTTPS)
+  ├── Camera → framing guidance → JPEG capture → share/download
+  ├── TensorFlow.js + COCO-SSD → vehicle detection
+  └── IndexedDB → local feed preview
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+GitHub → Actions: lint / typecheck / tests / build
+       → Azure Static Web Apps (Free)
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+The deployed application is in `web/`: JavaScript, CSS, Vite and TensorFlow.js. The root `src/` contains an earlier, separate Expo/React Native prototype. Azure serves the static browser build; there is no application server or database. The deployment token is stored as a GitHub Actions secret, not in the repository.
 
-### Other setup steps
+## Run the browser app
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+Use Node.js 22, matching the CI configuration:
 
-## Learn more
+```sh
+cd web
+npm ci
+npm run dev
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+To verify and build:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```sh
+npm run lint
+npm run check
+npm test
+npm run build
+```
 
-## Join the community
+Pushes affecting `web/` on `main` run checks and deploy through [GitHub Actions](.github/workflows/web.yml). Pull requests run checks without deploying. See the [browser application documentation](web/README.md) for camera fixtures, processing details and device acceptance checks.
 
-Join our community of developers creating universal apps.
+## Privacy and limitations
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Photos are processed locally and are not uploaded. Model files download from TensorFlow's hosting service. Local feed data belongs to the current browser/device and is removed when site data is cleared. There are no accounts or public community features.
+
+This is a prototype: vehicle detection does not recognize exact camera angles, interior shots use manual guidance, and sharpening cannot recover substantial motion blur. Camera access requires HTTPS or localhost. Physical iPhone behavior still needs device acceptance testing. Reference images are labeled AI-generated inspiration.
+
+## About the author
+
+I'm a systems and infrastructure administrator focused on Windows Server, VMware, Active Directory, Veeam backups and recovery. This personal project complements that work with Azure static hosting and automated delivery. Development used AI assistance; the repository documents the implementation and its current limits.
+
+[LinkedIn](https://www.linkedin.com/in/dominicfrederick/) · [Portfolio](https://domfrederick.com)
+
+## License
+
+[MIT](LICENSE).
